@@ -1,4 +1,5 @@
 set nocompatible
+
 syntax on
 
 set helplang=cn 
@@ -9,7 +10,14 @@ set nofoldenable
 "修改了vimrc配置，保存好自动生效
 autocmd! BufWritePost ~/.vimrc   so ~/.vimrc 
 
-set nonu
+"" Normal Mode gl 是跳转到上次修改的位置
+nnoremap gl `. 
+
+"" 插入模式下mm进入Normal Mode
+inoremap mm    <ESC>
+
+""Normal Mode下，",dt" 在当前光标后面添加日期时间
+nmap ,dt a<C-R>=strftime('%Y-%m-%d %H:%M:%S')<CR>
 
 " search
 set hlsearch "" highlight search 
@@ -37,10 +45,14 @@ set expandtab
 " set fileencoding=utf-8
 " set fileencodings=utf-8
 " set termencoding=utf-8
-set fenc=utf-8
 set encoding=utf-8
-set fileencodings=utf-8,gb18030,utf-16,big5
-set termencoding=gbk
+set langmenu=zh_CN.UTF-8
+language message zh_CN.UTF-8
+
+set fenc=utf-8
+"set fileencodings=utf-8,gb18030,utf-16,big5
+set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
+set termencoding=utf-8
 
 " no backup
 "set nobackup
@@ -74,23 +86,23 @@ inoremap <C-U> <C-G>u<C-U>
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
-  " Enable file type detection.
-  filetype plugin indent on
+    " Enable file type detection.
+    filetype plugin indent on
 
-  " Put these in an autocmd group, so that we can delete them easily.
-  augroup vimrcEx
-  au!
+    " Put these in an autocmd group, so that we can delete them easily.
+    augroup vimrcEx
+        au!
 
-  " For all text files set 'textwidth' to 78 characters.
-  autocmd FileType text setlocal textwidth=78
+        " For all text files set 'textwidth' to 78 characters.
+        autocmd FileType text setlocal textwidth=78
 
-  " When editing a file, always jump to the last known cursor position.
-  autocmd BufReadPost *
-    \ if line("'\"") > 1 && line("'\"") <= line("$") |
-    \   exe "normal! g`\"" |
-    \ endif
+        " When editing a file, always jump to the last known cursor position.
+        autocmd BufReadPost *
+                    \ if line("'\"") > 1 && line("'\"") <= line("$") |
+                    \   exe "normal! g`\"" |
+                    \ endif
 
-  augroup END
+    augroup END
 
 else
     set autoindent		" always set autoindenting on
@@ -184,83 +196,87 @@ let Tlist_Auto_Open = 1  "自动打开taglist
 
 
 """"vundle (vim bundle) 设置 start
-     set nocompatible               " be iMproved
-     filetype off                   " required!       /**  从这行开始，vimrc配置 **/
+"set nocompatible               " be iMproved
+filetype off                   " required!       /**  从这行开始，vimrc配置 **/
 
-     set rtp+=~/.vim/bundle/vundle/
-     call vundle#rc()
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
 
-     " let Vundle manage Vundle
-     " required! 
-     Bundle 'gmarik/vundle'
-     
-     " vim toml
-     Bundle 'cespare/vim-toml'
+" let Vundle manage Vundle
+" required! 
+Bundle 'gmarik/vundle'
 
-     " My Bundles here:  /* 插件配置格式 */
-     "   
-     " original repos on github （Github网站上非vim-scripts仓库的插件，按下面格式填写）
-     " 状态栏增强插件， airline
-     Bundle 'bling/vim-airline'
-     Bundle 'tpope/vim-fugitive'
-     Bundle 'Lokaltog/vim-easymotion'
-     Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-     Bundle 'tpope/vim-rails.git'
-     " vim-scripts repos  （vim-scripts仓库里的，按下面格式填写）
-     Bundle "taglist.vim"
-     Bundle 'L9'
-     Bundle 'FuzzyFinder'
-     " non github repos   (非上面两种情况的，按下面格式填写)
-     "Bundle 'git://git.wincent.com/command-t.git'
-     " ... 
+" vim toml
+Bundle 'cespare/vim-toml'
 
-     " Brief help
-     " :BundleList          - list configured bundles
-     " :BundleInstall(!)    - install(update) bundles
-     " :BundleSearch(!) foo - search(or refresh cache first) for foo 
-     " :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
-     "   
-     " see :h vundle for more details or wiki for FAQ 
-     " NOTE: comments after Bundle command are not allowed..
+" My Bundles here:  /* 插件配置格式 */
+"   
+" original repos on github （Github网站上非vim-scripts仓库的插件，按下面格式填写）
+" 状态栏增强插件， airline
+Bundle 'bling/vim-airline'
+Bundle 'tpope/vim-fugitive'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+Bundle 'tpope/vim-rails.git'
+" vim-scripts repos  （vim-scripts仓库里的，按下面格式填写）
+Bundle "taglist.vim"
+Bundle 'L9'
+Bundle 'FuzzyFinder'
+" non github repos   (非上面两种情况的，按下面格式填写)
+"Bundle 'git://git.wincent.com/command-t.git'
+" ... 
+
+" Brief help
+" :BundleList          - list configured bundles
+" :BundleInstall(!)    - install(update) bundles
+" :BundleSearch(!) foo - search(or refresh cache first) for foo 
+" :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+"   
+" see :h vundle for more details or wiki for FAQ 
+" NOTE: comments after Bundle command are not allowed..
 
 """" set for python antocomplete
-    Bundle 'rkulla/pydiction'
-    let g:pydiction_location = '/Users/huyongde/.vim/third/pydiction/complete-dict'
-    let g:pydiction_menu_height = 8
+Bundle 'rkulla/pydiction'
+let g:pydiction_location = '/Users/huyongde/.vim/third/pydiction/complete-dict'
+let g:pydiction_menu_height = 8
 """" end for python 
 
 
 """" set for php autocomplete
-     Bundle 'Shougo/vimproc'
-     Bundle 'Shougo/unite.vim'
-     Bundle 'm2mdas/phpcomplete-extended'
-     autocmd  FileType  php setlocal omnifunc=phpcomplete_extended#CompletePHP
-     let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+Bundle 'Shougo/vimproc'
+Bundle 'Shougo/unite.vim'
+Bundle 'm2mdas/phpcomplete-extended'
+autocmd  FileType  php setlocal omnifunc=phpcomplete_extended#CompletePHP
+let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 
-     Bundle 'nrocco/vim-phplint'
-     "" 写入php文件时，自动进行语法检查
-     autocmd! BufWritePost *.php :Phplint
-     " autocmd! BufWritePost *.php :!php -l %
+Bundle 'nrocco/vim-phplint'
+"" 写入php文件时，自动进行语法检查
+autocmd! BufWritePost *.php :Phplint
+" autocmd! BufWritePost *.php :!php -l %
 
-     "" 写入php文件时，自动进行代码格式化
-     autocmd! BufWrite *.php :exec 'normal ggVG===' 
+"" 写入php文件时，自动进行代码格式化
+autocmd! BufWrite *.php :exec 'normal ggVG==' 
 """  end for php
 
-""""""set for go start
-     Plugin 'fatih/vim-go'
-     Bundle 'elgris/hint'
-     Plugin 'Valloric/YouCompleteMe'
-     Plugin 'majutsushi/tagbar'
-     Bundle 'scrooloose/nerdtree'
-     Bundle 'dgryski/vim-godef'
-     Plugin 'nsf/gocode', {'rtp': 'vim/'}
-    
-     """"for markdown
-     Plugin 'godlygeek/tabular'
-     Plugin 'plasticboy/vim-markdown'
+"""  自动检测vim打开的文件编码
+Bundle 'mbbill/fencview' 
+let g:fencview_autodetect=1
 
-     filetype plugin indent on     " required!   /** vimrc文件配置结束 **/
-     "                                           /** vundle命令 **/
+""""""set for go start
+Plugin 'fatih/vim-go'
+Bundle 'elgris/hint'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'majutsushi/tagbar'
+Bundle 'scrooloose/nerdtree'
+Bundle 'dgryski/vim-godef'
+Plugin 'nsf/gocode', {'rtp': 'vim/'}
+
+""""for markdown
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+
+filetype plugin indent on     " required!   /** vimrc文件配置结束 **/
+"                                           /** vundle命令 **/
 
 
 
@@ -270,32 +286,32 @@ let g:godef_same_file_in_same_window=1 """函数在同一个文件中时不需�
 
 """"set for tagbar start
 let g:tagbar_type_go = {
-    \ 'ctagstype' : 'go',
-    \ 'kinds'     : [
-        \ 'p:package',
-        \ 'i:imports:1',
-        \ 'c:constants',
-        \ 'v:variables',
-        \ 't:types',
-        \ 'n:interfaces',
-        \ 'w:fields',
-        \ 'e:embedded',
-        \ 'm:methods',
-        \ 'r:constructor',
-        \ 'f:functions'
-    \ ],
-    \ 'sro' : '.',
-    \ 'kind2scope' : {
-        \ 't' : 'ctype',
-        \ 'n' : 'ntype'
-    \ },
-    \ 'scope2kind' : {
-        \ 'ctype' : 't',
-        \ 'ntype' : 'n'
-    \ },
-    \ 'ctagsbin'  : 'gotags',
-    \ 'ctagsargs' : '-sort -silent'
-    \ }
+            \ 'ctagstype' : 'go',
+            \ 'kinds'     : [
+            \ 'p:package',
+            \ 'i:imports:1',
+            \ 'c:constants',
+            \ 'v:variables',
+            \ 't:types',
+            \ 'n:interfaces',
+            \ 'w:fields',
+            \ 'e:embedded',
+            \ 'm:methods',
+            \ 'r:constructor',
+            \ 'f:functions'
+            \ ],
+            \ 'sro' : '.',
+            \ 'kind2scope' : {
+            \ 't' : 'ctype',
+            \ 'n' : 'ntype'
+            \ },
+            \ 'scope2kind' : {
+            \ 'ctype' : 't',
+            \ 'ntype' : 'n'
+            \ },
+            \ 'ctagsbin'  : 'gotags',
+            \ 'ctagsargs' : '-sort -silent'
+            \ }
 """set for tagbar end 
 
 """set for goimports
@@ -307,7 +323,7 @@ let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
- 
+
 "" 设置markdown不折叠
 let g:vim_markdown_folding_disabled = 1
 "let g:vim_markdown_toc_autofit = 1
