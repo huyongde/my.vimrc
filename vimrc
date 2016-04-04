@@ -16,8 +16,9 @@ nnoremap gl `.
 "" 插入模式下mm进入Normal Mode
 inoremap mm    <ESC>
 
-""Normal Mode下，",dt" 在当前光标后面添加日期时间
+""Normal|Insert Mode下，",dt" 在当前光标后面添加日期时间
 nmap ,dt a<C-R>=strftime('%Y-%m-%d %H:%M:%S')<CR>
+imap ,dt <C-R>=strftime('%Y-%m-%d %H:%M:%S')<CR>
 
 " search
 set hlsearch "" highlight search 
